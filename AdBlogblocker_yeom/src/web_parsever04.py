@@ -1,5 +1,6 @@
 #web parsing with beautifulsoup
 #from bs4 import BeautifulSoup
+#_*_coding: utf-8 _*_
 from urllib.request import urlopen
 from urllib.error import HTTPError
 import re
@@ -38,15 +39,17 @@ def firstparse(url):    # Fisrt Parsing to find REAL URl (in #document)
 
 def secoundparse(url):  # Second Parsing of REAL URL
     print('secoundparse')
-    pics, stickers, texts = [],[],[]  # arrays of pic, sticker, text.
+    pics, stickers, texts, text = [],[],[],[]  # arrays of pic, sticker, text.
     secondhtml = web_parse(url)  
     #pics += re.findall('<img src="(.*?)".*?data-width="(.*?)" data-height="(.*?)".*?class="se-image-resource" />'
                         #, secondhtml) #parse pics number
     pics += re.findall('<img.*?src="(.*?)".*?data-width="(.*?)" data-height="(.*?)".*?>'
                         , secondhtml) #parse pics number
     stickers += re.findall('<img.*? src="(.*?)".*?class="se-sticker-image" />',secondhtml)  #parse sticker number
-    texts += re.findall('<span.*?>(.*?)</span>',secondhtml) #parse text
-     #####################################################################################
+    text += re.findall('<span.*?>(.*?)</span>',secondhtml) #parse text
+    for parse in text:
+        texts += re.findall("[가-힝 ]",parse)
+         #####################################################################################
      #### For TESTING! ###################################################################   
     #print(pics)
     #print(sticker)
