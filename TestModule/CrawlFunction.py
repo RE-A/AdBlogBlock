@@ -14,8 +14,6 @@ def setURL(searchWord):
     return URL
 
 
-
-
 def getSiteHtml(url):
     # bs4 객체를 반환
     try:
