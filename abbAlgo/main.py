@@ -1,9 +1,16 @@
-
-def read_blogData():
+import sys
+#sys.exit 사용 위함
+def read_blogData(): #정확하게 할려면 readLine하고 'pic :'이란 형태가 나타나면 읽기를 그만 두는 것으로.( pic : 부터는 따로 데이터를 추출해서 저장하던가 하는 편이 완벽할 듯 하다.
     f = open('blogData.txt', 'r')
-    blogData = f.readlines()
-    f.close()
-    return blogData
+    blogData = f.read().split()
+    print(blogData)
+    i = 0
+    temp= []
+    while i < blogData.index('pics'):
+        temp.append(blogData[i])
+        i+=1
+        
+    return temp
 
 def read_positiveDic():
     f =  open('positiveDic.txt', 'r')
@@ -51,7 +58,7 @@ print(advWordList)
 
 "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@단어 체크@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 "총단어 수 세기-> 전제: 블로그에 한 단어라도 있다"
-totalWordNum = blogData[0].count(' ') + 1
+totalWordNum = len(blogData)
 
 "긍정적 단어 수 세기"
 positiveNum = 0
@@ -80,8 +87,10 @@ for word in advWordList:
         if word != '':
             advWordNum += blogData[0].count(word)
             "총 커서수(?)가 세어져서->글자수+1개를 세서 빼게 되었다."
+            break;
     else:
         continue
+
 
 "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@각각의 단어 수 출력@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
 print("본문 속 총 단어 수는 ")
@@ -95,8 +104,18 @@ print(advWordNum)
 print("\n\n")
 "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@이후 가중치 임의설정, 실험@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"
 
-if positiveNum/(negativeNum + 1) > 6 or advWordNum > 0:
-    "negativeNum이 0개일 경우에 대비하여 +1하였음"
+try:
+    ratio = positiveNum/negativeNum
+except ZeroDivisionError:
+    ratio = positiveNum
+
+
+
+if advWordNum > 0:
+    print("광고가 확실합니다\n")
+    sys.exit()
+if ratio > 6 or advWordNum > 0:
+
     print("긍정단어/부정단어")
     print(positiveNum/(negativeNum + 1))
     print("광고확정단어수")
